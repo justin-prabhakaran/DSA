@@ -120,6 +120,11 @@ public class Array<T> implements DataStructure<T>, Alogrithm<T> {
     }
 
     @Override
+    public void addElementAt(int index, T element) {
+        //TODO : impl
+    }
+
+    @Override
     public void removeElementAt(int index) {
         int k=0;
         for(int i=0;i<_size;i++){
