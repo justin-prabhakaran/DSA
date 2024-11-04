@@ -94,6 +94,7 @@ public class ArrayTest {
     @Test
     public void sort() {
         Array<Integer> arr = new Array<>(10);
+
         arr.addElement(1);
         arr.addElement(10);
         arr.addElement(2);

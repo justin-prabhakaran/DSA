@@ -3,32 +3,144 @@ package org.justinprabhakaran;
 import java.util.ArrayList;
 import java.util.EmptyStackException;
 import java.util.List;
+import java.util.Objects;
 
-public class SinglyLinkedList<T> implements DataStructure<T>, Alogrithm<T> {
+public class SinglyLinkedList<T extends Comparable<T>> implements DataStructure<T>, Algorithm<T> {
 
     private Node _head;
-    private int _length;
+    private int _size;
 
     @Override
     public int linearSearch(T element) {
-        return 0;
+        Node temp = _head;
+        int i=0;
+        while (_head != null){
+            if(Objects.equals(_head.val, element)){
+                return i;
+            }
+            _head = _head.next;
+            i++;
+        }
+        _head = temp;
+        return -1;
+
     }
 
     @Override
     public int binarySearch(T element) {
-        return 0;
+
+        this.sort();
+        Node start = _head;
+        Node end = null;
+        while (start != end){
+            Node slow = start;
+            Node fast = start;
+            Node midPrev = null;
+            while (fast != end && fast.next != end){
+                midPrev = slow;
+                slow = slow.next;
+                fast = fast.next.next;
+            }
+
+            Node mid = slow;
+            System.out.println(mid.val);
+            if(mid.val.equals(element)){
+                return indexOf(mid.val);
+            }else {
+                assert element != null;
+                if(mid.val.compareTo(element) > 0){
+                    end = midPrev;
+                }else start = mid.next;
+            }
+        }
+        return -1;
     }
 
     @Override
     public void sort() {
-
+        this.mergeSort();
     }
+
+    @Override
+    public DataStructure<T> sorted() {
+        //TODO : impl
+        return this;
+    }
+
+    private void mergeSort(){
+        _head = this._mergeSort(_head);
+    }
+
+    private Node _mergeSort(Node list){
+        if(list == null || list.next == null) return list;
+
+        Node middle = findMiddle(list);
+
+        Node leftSorted = _mergeSort(list); // left as list starting
+        Node rightSorted = _mergeSort(middle); //right as middle starting
+
+        return merge(leftSorted,rightSorted);
+    }
+
+    private Node findMiddle(Node list){
+        if(list == null || list.next == null) return list;
+
+        Node slow = list;
+        Node fast = list.next;
+
+        while (fast != null && fast.next != null){
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        Node middle = slow.next;
+        slow.next = null;
+        return middle;
+    }
+
+
+    private Node merge(Node left, Node right){
+        if(left == null) return right;
+        if(right == null) return left;
+
+        Node result;
+        if(left.val.compareTo(right.val) <= 0){
+            result = left;
+            result.next = merge(left.next, right);
+        }else{
+            result = right;
+            result.next = merge(left,right.next);
+        }
+
+        return result;
+    }
+
+    @Override
+    public T[] getData() {
+        //TODO : impl
+        return null;
+    }
+
+    @Override
+    public int indexOf(T element) {
+        Node temp = _head;
+        int i=0;
+        while (temp != null){
+            if(temp.val.equals(element))
+                return i;
+            i++;
+            temp = temp.next;
+        }
+        return -1;
+    }
+
+
 
     @Override
     public void addElement(T element) {
         if (_head == null) {
             _head = new Node(element);
-            _length++;
+            _size++;
             return;
         }
         Node temp = _head;
@@ -37,12 +149,12 @@ public class SinglyLinkedList<T> implements DataStructure<T>, Alogrithm<T> {
         }
         _head.next = new Node(element);
         _head = temp;
-        _length++;
+        _size++;
     }
 
     @Override
     public void addElementAt(int index, T element) {
-        if (index > _length) throw new IndexOutOfBoundsException("index > size of the list!!");
+        if (index > _size) throw new IndexOutOfBoundsException("index > size of the list!!");
 
         if (index == 0) {
             Node temp = new Node(element);
@@ -65,16 +177,36 @@ public class SinglyLinkedList<T> implements DataStructure<T>, Alogrithm<T> {
 
         _head = temp;
 
-        _length++;
+        _size++;
     }
 
     @Override
     public void removeElementAt(int index) {
+        if(index > _size) throw new IndexOutOfBoundsException("index > length !!");
 
+        if(index == 0){
+            _head = _head.next;
+            _size--;
+            return;
+        }
+        int i=0;
+        Node prev = null;
+        Node temp = _head;
+        while (_head.next != null){
+            if(i == index) break;
+            i++;
+            prev = _head;
+            _head = _head.next;
+        }
+        if(prev != null) prev.next = _head.next;
+        _head = temp;
+        _size--;
     }
 
     @Override
     public void removeElement(T element) {
+        // int index = linearSearch(element);
+        // if(index != -1) removeElementAt(index);
 
         if(_head == null) throw new EmptyStackException();
         if(_head.val == element){
@@ -85,7 +217,7 @@ public class SinglyLinkedList<T> implements DataStructure<T>, Alogrithm<T> {
         Node prev = null;
         Node temp = _head;
         while (_head.next != null){
-            if(_head.val == element) break;
+            if(Objects.equals(_head.val,element)) break;
             prev = _head;
             _head = _head.next;
         }
@@ -93,11 +225,24 @@ public class SinglyLinkedList<T> implements DataStructure<T>, Alogrithm<T> {
         if(prev != null) prev.next = _head.next;
 
         _head = temp;
+        _size--;
+
     }
 
     @Override
     public void printDataStructure() {
-
+        System.out.print("[");
+        Node temp = _head;
+        while (_head != null){
+            if(_head.next == null){
+                System.out.print(_head.val);
+            }else {
+                System.out.print(_head.val + ", ");
+            }
+            _head = _head.next;
+        }
+        System.out.println("]");
+        _head = temp;
     }
 
     @Override
@@ -110,8 +255,12 @@ public class SinglyLinkedList<T> implements DataStructure<T>, Alogrithm<T> {
         return list;
     }
 
+    @Override
+    public int size() {
+        return _size;
+    }
+    
     private class Node {
-
         T val;
         Node next;
 

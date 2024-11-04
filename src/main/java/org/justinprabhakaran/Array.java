@@ -5,8 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Array<T> implements DataStructure<T>, Alogrithm<T> {
-
+public class Array<T> implements DataStructure<T>, Algorithm<T> {
     private int _lenght = 0;
     private final int _size;
     private final Object[] _array;
@@ -61,6 +60,12 @@ public class Array<T> implements DataStructure<T>, Alogrithm<T> {
         this.mergeSort();
     }
 
+    @Override
+    public DataStructure<T> sorted() {
+        //TODO : impl
+        return this;
+    }
+
     private void mergeSort(){
         this._mergeSort(_array,0, _lenght-1);
     }
@@ -111,6 +116,17 @@ public class Array<T> implements DataStructure<T>, Alogrithm<T> {
         }
     }
 
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public T[] getData() {
+        return (T[]) _array;
+    }
+
+    @Override
+    public int indexOf(T element) {
+        return linearSearch(element);
+    }
 
     @Override
     public void addElement(T element) {
@@ -167,5 +183,10 @@ public class Array<T> implements DataStructure<T>, Alogrithm<T> {
             list.add((T) _array[i]);
         }
         return list;
+    }
+
+    @Override
+    public int size() {
+        return _lenght;
     }
 }
