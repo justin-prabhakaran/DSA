@@ -162,4 +162,17 @@ public class ArrayTest {
             assertEquals(expected,output);
         }
     }
+
+    @Test
+    void getDataTest(){
+        Array<Integer> arr = new Array<>(10);
+        arr.addElement(11);
+        arr.addElement(21);
+        arr.addElement(13);
+
+        Integer[] output = arr.getData(Integer.class);
+        Integer[] expected = new Integer[]{11,21,13};
+
+        assertArrayEquals(expected,output);
+    }
 }

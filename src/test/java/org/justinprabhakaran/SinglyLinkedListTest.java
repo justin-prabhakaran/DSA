@@ -257,7 +257,7 @@ class SinglyLinkedListTest {
         list.addElement(10);
         list.addElement(2);
 
-        Integer[] output = list.getData();
+        Integer[] output = list.getData(Integer.class);
         Integer[] expected = new Integer[]{1,10,2};
 
         assertArrayEquals(expected,output);

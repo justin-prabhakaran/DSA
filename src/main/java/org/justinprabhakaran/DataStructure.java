@@ -3,7 +3,7 @@ package org.justinprabhakaran;
 import java.util.List;
 
 public interface DataStructure<T> {
-    public Object getData();
+    public Object getData(Class<T> type);
     public int indexOf(T element);
     public void addElement(T element);
     public void addElementAt(int index, T element);

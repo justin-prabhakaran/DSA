@@ -114,8 +114,10 @@ public class Array<T> implements DataStructure<T>, Algorithm<T> {
 
     @Override
     @SuppressWarnings("unchecked")
-    public T[] getData() {
-        return (T[]) _array;
+    public T[] getData(Class<T> type) {
+        T[] arr = (T[]) java.lang.reflect.Array.newInstance(type,_lenght);
+        System.arraycopy(_array,0,arr,0,_lenght);
+        return arr;
     }
 
     @Override

@@ -113,8 +113,11 @@ public class SinglyLinkedList<T extends Comparable<T> > implements DataStructure
 
     @Override
     @SuppressWarnings("unchecked")
-    public T[] getData() {
-        T[] arr = (T[]) Array.newInstance(_head.val.getClass(),_size);
+    public T[] getData(Class<T> type) {
+        if(type == null){
+            type = (Class<T>) _head.val.getClass();
+        }
+        T[] arr = (T[]) Array.newInstance(type,_size);
         int i=0;
         while (_head != null){
             arr[i++] = _head.val;
