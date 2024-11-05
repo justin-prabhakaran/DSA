@@ -60,11 +60,6 @@ public class Array<T> implements DataStructure<T>, Algorithm<T> {
         this.mergeSort();
     }
 
-    @Override
-    public DataStructure<T> sorted() {
-        //TODO : impl
-        return this;
-    }
 
     private void mergeSort(){
         this._mergeSort(_array,0, _lenght-1);
@@ -137,7 +132,14 @@ public class Array<T> implements DataStructure<T>, Algorithm<T> {
 
     @Override
     public void addElementAt(int index, T element) {
-        //TODO : impl
+        if(_lenght + 1 > _size)
+            throw new IndexOutOfBoundsException("Size full !!");
+
+        for(int i=_lenght;i>=index;i--){
+            _array[i+1] = _array[i];
+        }
+        _array[index] = element;
+        _lenght++;
     }
 
     @Override

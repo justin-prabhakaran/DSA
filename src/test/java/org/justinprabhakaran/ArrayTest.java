@@ -2,6 +2,7 @@ package org.justinprabhakaran;
 
 
 
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
@@ -111,6 +112,54 @@ public class ArrayTest {
         List<Integer> expected = List.of(1,2,3,4,5,6,7,8,9,10);
 
         assertEquals(output,expected);
+    }
 
+    @Nested
+    class AddElementAt{
+
+        @Test
+        void addElementAtFirst(){
+           Array<Integer> arr = new Array<>(5);
+           arr.addElement(2);
+           arr.addElement(3);
+           arr.addElement(4);
+
+           arr.addElementAt(0,1);
+
+           List<Integer> output = arr.toList();
+           List<Integer> expected = List.of(1,2,3,4);
+
+           assertEquals(expected,output);
+        }
+
+        @Test
+        void addElementAtMid(){
+            Array<Integer> arr = new Array<>(5);
+            arr.addElement(1);
+            arr.addElement(3);
+            arr.addElement(4);
+
+            arr.addElementAt(1,2);
+
+            List<Integer> output = arr.toList();
+            List<Integer> expected = List.of(1,2,3,4);
+
+            assertEquals(expected,output);
+        }
+
+        @Test
+        void addElementAtLast(){
+            Array<Integer> arr = new Array<>(5);
+            arr.addElement(1);
+            arr.addElement(2);
+            arr.addElement(3);
+
+            arr.addElementAt(3,4);
+
+            List<Integer> output = arr.toList();
+            List<Integer> expected = List.of(1,2,3,4);
+
+            assertEquals(expected,output);
+        }
     }
 }

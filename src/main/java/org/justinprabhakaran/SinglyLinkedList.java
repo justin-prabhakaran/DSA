@@ -1,11 +1,12 @@
 package org.justinprabhakaran;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.EmptyStackException;
 import java.util.List;
 import java.util.Objects;
 
-public class SinglyLinkedList<T extends Comparable<T>> implements DataStructure<T>, Algorithm<T> {
+public class SinglyLinkedList<T extends Comparable<T> > implements DataStructure<T>, Algorithm<T> {
 
     private Node _head;
     private int _size;
@@ -42,8 +43,8 @@ public class SinglyLinkedList<T extends Comparable<T>> implements DataStructure<
                 fast = fast.next.next;
             }
 
-            Node mid = slow;
-            System.out.println(mid.val);
+            Node mid = slow  ;
+            System.out.println(mid.val) ;
             if(mid.val.equals(element)){
                 return indexOf(mid.val);
             }else {
@@ -61,11 +62,6 @@ public class SinglyLinkedList<T extends Comparable<T>> implements DataStructure<
         this.mergeSort();
     }
 
-    @Override
-    public DataStructure<T> sorted() {
-        //TODO : impl
-        return this;
-    }
 
     private void mergeSort(){
         _head = this._mergeSort(_head);
@@ -116,9 +112,15 @@ public class SinglyLinkedList<T extends Comparable<T>> implements DataStructure<
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public T[] getData() {
-        //TODO : impl
-        return null;
+        T[] arr = (T[]) Array.newInstance(_head.val.getClass(),_size);
+        int i=0;
+        while (_head != null){
+            arr[i++] = _head.val;
+            _head = _head.next;
+        }
+        return  arr;
     }
 
     @Override

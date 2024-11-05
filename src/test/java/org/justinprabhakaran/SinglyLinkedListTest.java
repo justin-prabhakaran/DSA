@@ -3,7 +3,6 @@ package org.justinprabhakaran;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import javax.xml.crypto.dsig.SignedInfo;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.List;
@@ -258,7 +257,10 @@ class SinglyLinkedListTest {
         list.addElement(10);
         list.addElement(2);
 
+        Integer[] output = list.getData();
+        Integer[] expected = new Integer[]{1,10,2};
 
+        assertArrayEquals(expected,output);
 
     }
 }
