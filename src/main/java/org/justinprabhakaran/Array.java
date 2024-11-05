@@ -5,8 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Array<T> implements DataStructure<T>, Alogrithm<T> {
-
+public class Array<T> implements DataStructure<T>, Algorithm<T> {
     private int _lenght = 0;
     private final int _size;
     private final Object[] _array;
@@ -61,6 +60,7 @@ public class Array<T> implements DataStructure<T>, Alogrithm<T> {
         this.mergeSort();
     }
 
+
     private void mergeSort(){
         this._mergeSort(_array,0, _lenght-1);
     }
@@ -113,10 +113,35 @@ public class Array<T> implements DataStructure<T>, Alogrithm<T> {
 
 
     @Override
+    @SuppressWarnings("unchecked")
+    public T[] getData(Class<T> type) {
+        T[] arr = (T[]) java.lang.reflect.Array.newInstance(type,_lenght);
+        System.arraycopy(_array,0,arr,0,_lenght);
+        return arr;
+    }
+
+    @Override
+    public int indexOf(T element) {
+        return linearSearch(element);
+    }
+
+    @Override
     public void addElement(T element) {
         if(_size < _lenght)
             throw new IndexOutOfBoundsException("Array is Filled !!");
         _array[_lenght++] = element;
+    }
+
+    @Override
+    public void addElementAt(int index, T element) {
+        if(_lenght + 1 > _size)
+            throw new IndexOutOfBoundsException("Size full !!");
+
+        for(int i=_lenght;i>=index;i--){
+            _array[i+1] = _array[i];
+        }
+        _array[index] = element;
+        _lenght++;
     }
 
     @Override
@@ -162,5 +187,10 @@ public class Array<T> implements DataStructure<T>, Alogrithm<T> {
             list.add((T) _array[i]);
         }
         return list;
+    }
+
+    @Override
+    public int size() {
+        return _lenght;
     }
 }

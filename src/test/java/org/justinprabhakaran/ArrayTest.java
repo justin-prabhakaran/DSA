@@ -2,6 +2,7 @@ package org.justinprabhakaran;
 
 
 
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
@@ -94,6 +95,7 @@ public class ArrayTest {
     @Test
     public void sort() {
         Array<Integer> arr = new Array<>(10);
+
         arr.addElement(1);
         arr.addElement(10);
         arr.addElement(2);
@@ -110,6 +112,67 @@ public class ArrayTest {
         List<Integer> expected = List.of(1,2,3,4,5,6,7,8,9,10);
 
         assertEquals(output,expected);
+    }
 
+    @Nested
+    class AddElementAt{
+
+        @Test
+        void addElementAtFirst(){
+           Array<Integer> arr = new Array<>(5);
+           arr.addElement(2);
+           arr.addElement(3);
+           arr.addElement(4);
+
+           arr.addElementAt(0,1);
+
+           List<Integer> output = arr.toList();
+           List<Integer> expected = List.of(1,2,3,4);
+
+           assertEquals(expected,output);
+        }
+
+        @Test
+        void addElementAtMid(){
+            Array<Integer> arr = new Array<>(5);
+            arr.addElement(1);
+            arr.addElement(3);
+            arr.addElement(4);
+
+            arr.addElementAt(1,2);
+
+            List<Integer> output = arr.toList();
+            List<Integer> expected = List.of(1,2,3,4);
+
+            assertEquals(expected,output);
+        }
+
+        @Test
+        void addElementAtLast(){
+            Array<Integer> arr = new Array<>(5);
+            arr.addElement(1);
+            arr.addElement(2);
+            arr.addElement(3);
+
+            arr.addElementAt(3,4);
+
+            List<Integer> output = arr.toList();
+            List<Integer> expected = List.of(1,2,3,4);
+
+            assertEquals(expected,output);
+        }
+    }
+
+    @Test
+    void getDataTest(){
+        Array<Integer> arr = new Array<>(10);
+        arr.addElement(11);
+        arr.addElement(21);
+        arr.addElement(13);
+
+        Integer[] output = arr.getData(Integer.class);
+        Integer[] expected = new Integer[]{11,21,13};
+
+        assertArrayEquals(expected,output);
     }
 }
